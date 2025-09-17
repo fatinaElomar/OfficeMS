@@ -1,0 +1,71 @@
+# ---- .NET / Visual Studio ----
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.svclog
+*.pidb
+*.log
+*.tlog
+*.cache
+*.dbmdl
+_TestResults/
+[Tt]est[Rr]esult*/
+*.coverage*
+*.opendb
+*.nupkg
+*.snupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.ide/
+
+# Rider
+.idea/
+*.ipr
+*.iws
+*.iml
+
+# ---- ASP.NET / EF Core ----
+appsettings.*.local.json
+appsettings.Local.json
+appsettings.Secret.json
+secrets.json
+Migrations/*Designer.cs
+
+# ---- Node / React ----
+node_modules/
+.cache/
+yarn.lock
+pnpm-lock.yaml
+.npm/
+dist/
+build/
+coverage/
+.tmp/
+.DS_Store
+
+# Env files
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ---- OS / Editor ----
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*.tmp
+*.orig
+*.bak
+
+# ---- OneDrive office temp files ----
+~$*
+~*.tmp
