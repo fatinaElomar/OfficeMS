@@ -13,5 +13,9 @@ namespace Office.Infrastructure.Repositories {
     public async Task<User> GetByEmailAsync(string email) {
       return await _app.Users.FirstOrDefaultAsync(u => u.Email == email);
     }
+
+    public async Task<User> GetByVerificationTokenAsync(string token) {
+      return await _app.Users.FirstOrDefaultAsync(u => u.EmailVerificationToken == token);
+    }
   }
 }
