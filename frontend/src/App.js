@@ -1,28 +1,37 @@
 import React from 'react';
-import { Link, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import Contact from './pages/Contact';
+import PasswordReset from './pages/PasswordReset';
 import Dashboard from './pages/Dashboard';
 import Requests from './pages/Requests';
 import Payments from './pages/Payments';
 import Notifications from './pages/Notifications';
 import Chat from './pages/Chat';
+import ProtectedRoute from './components/ProtectedRoute';
+import Layout from './components/Layout';
 
 export default function App(){
   return (
-    <div style={{padding:20}}>
-      <h2>Office Management System (Frontend)</h2>
-      <nav>
-        <Link to='/requests'>Requests</Link> | <Link to='/payments'>Payments</Link> | <Link to='/notifications'>Notifications</Link> | <Link to='/chat'>Chat</Link>
-      </nav>
+    <Layout>
       <Routes>
         <Route path='/login' element={<Login/>} />
-        <Route path='/dashboard' element={<Dashboard/>} />
-        <Route path='/requests' element={<Requests/>} />
-        <Route path='/payments' element={<Payments/>} />
-        <Route path='/notifications' element={<Notifications/>} />
-        <Route path='/chat' element={<Chat/>} />
-        <Route path='/' element={<Login/>} />
+        <Route path='/signup' element={<Signup/>} />
+        <Route path='/reset-password' element={<PasswordReset/>} />
+        <Route path='/' element={<Home/>} />
+        <Route path='/about' element={<About/>} />
+        <Route path='/services' element={<Services/>} />
+        <Route path='/contact' element={<Contact/>} />
+        <Route path='/dashboard' element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
+        <Route path='/requests' element={<ProtectedRoute><Requests/></ProtectedRoute>} />
+        <Route path='/payments' element={<ProtectedRoute><Payments/></ProtectedRoute>} />
+        <Route path='/notifications' element={<ProtectedRoute><Notifications/></ProtectedRoute>} />
+        <Route path='/chat' element={<ProtectedRoute><Chat/></ProtectedRoute>} />
       </Routes>
-    </div>
+    </Layout>
   );
 }

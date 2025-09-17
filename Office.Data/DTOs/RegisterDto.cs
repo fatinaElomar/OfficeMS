@@ -5,5 +5,13 @@ namespace Office.Data.DTOs {
     public string Password { get; set; }
     public string Phone { get; set; }
     public string Role { get; set; }
+    public string Status { get; set; }
+  }
+
+  public class UpdateUserDto {
+    public string Name { get; set; }
+    public string Phone { get; set; }
+    public string Role { get; set; }
+    public string Status { get; set; }
   }
 }

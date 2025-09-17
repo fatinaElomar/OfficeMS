@@ -6,4 +6,9 @@ namespace Office.Data.DTOs {
     public string Title { get; set; }
     public string Description { get; set; }
   }
+
+  public class AssignRequestDto {
+    public long? LawyerId { get; set; }
+    public long? OfficeId { get; set; }
+  }
 }

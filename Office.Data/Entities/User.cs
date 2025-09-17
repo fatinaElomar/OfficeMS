@@ -9,5 +9,9 @@ namespace Office.Data.Entities {
     public string Status { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public bool IsEmailVerified { get; set; }
+    public string EmailVerificationToken { get; set; }
+    public DateTime? EmailVerifiedAt { get; set; }
+    public DateTime? EmailVerificationSentAt { get; set; }
   }
 }
