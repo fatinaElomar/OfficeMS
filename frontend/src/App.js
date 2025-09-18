@@ -14,6 +14,11 @@ import Notifications from './pages/Notifications';
 import Chat from './pages/Chat';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
+import AdminDashboard from './pages/AdminDashboard';
+import OfficeDashboard from './pages/OfficeDashboard';
+import LawyerDashboard from './pages/LawyerDashboard';
+import ClientDashboard from './pages/ClientDashboard';
+import RoleRoute from './components/RoleRoute';
 
 export default function App(){
   return (
@@ -27,6 +32,10 @@ export default function App(){
         <Route path='/services' element={<Services/>} />
         <Route path='/contact' element={<Contact/>} />
         <Route path='/dashboard' element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
+        <Route path='/admin' element={<ProtectedRoute><RoleRoute roles={['admin']}><AdminDashboard/></RoleRoute></ProtectedRoute>} />
+        <Route path='/office' element={<ProtectedRoute><RoleRoute roles={['office']}><OfficeDashboard/></RoleRoute></ProtectedRoute>} />
+        <Route path='/lawyer' element={<ProtectedRoute><RoleRoute roles={['lawyer']}><LawyerDashboard/></RoleRoute></ProtectedRoute>} />
+        <Route path='/client' element={<ProtectedRoute><RoleRoute roles={['client']}><ClientDashboard/></RoleRoute></ProtectedRoute>} />
         <Route path='/requests' element={<ProtectedRoute><Requests/></ProtectedRoute>} />
         <Route path='/payments' element={<ProtectedRoute><Payments/></ProtectedRoute>} />
         <Route path='/notifications' element={<ProtectedRoute><Notifications/></ProtectedRoute>} />
