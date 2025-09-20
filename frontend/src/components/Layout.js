@@ -10,7 +10,7 @@ export default function Layout({ children }){
   return (
     <div>
       <Navbar />
-      <main className='container'>
+      <main className='container p-4'>
         {children}
       </main>
     </div>

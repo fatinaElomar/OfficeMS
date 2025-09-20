@@ -2,12 +2,16 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-export default function RoleRoute({ roles, children }){
+export default function RoleRoute({ children, roles }) {
   const { role } = useAuth();
-  if (!role) return <Navigate to="/dashboard" replace />;
-  const allowed = Array.isArray(roles) ? roles.map(r => r.toLowerCase()) : [String(roles || '').toLowerCase()];
-  if (!allowed.includes(role.toLowerCase())) return <Navigate to="/dashboard" replace />;
+  
+  if (!role) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  if (!roles.includes(role)) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
   return children;
 }
-
-

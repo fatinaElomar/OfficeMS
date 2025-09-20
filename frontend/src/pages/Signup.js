@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import client from "../api/client";
+import signup from "../assets/signup.png";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -24,9 +25,7 @@ export default function Signup() {
     setLoading(true);
     try {
       await client.post("/Users/register", form);
-      setMessage(
-        "Account created. Please check your email to verify your account."
-      );
+      setMessage("Account created. Please check your email to verify your account.");
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setError("Signup failed. Email may already exist.");
@@ -43,8 +42,9 @@ export default function Signup() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background:
-          "url('https://www.shutterstock.com/image-photo/law-symbols-library-background-gavel-600nw-2542338153.jpg') no-repeat center center/cover",
+        backgroundImage: `url(${signup})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
         fontFamily: "Poppins, sans-serif",
       }}
     >
@@ -53,7 +53,7 @@ export default function Signup() {
           width: 380,
           padding: "30px 25px",
           borderRadius: 15,
-          background: "rgba(255, 255, 255, 0.1)",
+          background: "rgba(0,0,0,0.5)",
           backdropFilter: "blur(12px)",
           boxShadow: "0px 8px 30px rgba(0,0,0,0.3)",
           textAlign: "center",
@@ -73,32 +73,14 @@ export default function Signup() {
               onChange={onChange}
               required
               placeholder="Full Name"
-              style={{
-                flex: 1,
-                padding: "12px 15px",
-                borderRadius: 25,
-                border: "none",
-                outline: "none",
-                background: "rgba(255,255,255,0.2)",
-                color: "#fff",
-                fontSize: 14,
-              }}
+              style={inputStyle}
             />
             <input
               name="phone"
               value={form.phone}
               onChange={onChange}
               placeholder="Phone"
-              style={{
-                flex: 1,
-                padding: "12px 15px",
-                borderRadius: 25,
-                border: "none",
-                outline: "none",
-                background: "rgba(255,255,255,0.2)",
-                color: "#fff",
-                fontSize: 14,
-              }}
+              style={inputStyle}
             />
           </div>
 
@@ -111,16 +93,7 @@ export default function Signup() {
               onChange={onChange}
               required
               placeholder="Email"
-              style={{
-                width: "100%",
-                padding: "12px 15px",
-                borderRadius: 25,
-                border: "none",
-                outline: "none",
-                background: "rgba(255,255,255,0.2)",
-                color: "#fff",
-                fontSize: 14,
-              }}
+              style={inputStyle}
             />
           </div>
 
@@ -133,16 +106,7 @@ export default function Signup() {
               onChange={onChange}
               required
               placeholder="Password"
-              style={{
-                width: "100%",
-                padding: "12px 15px",
-                borderRadius: 25,
-                border: "none",
-                outline: "none",
-                background: "rgba(255,255,255,0.2)",
-                color: "#fff",
-                fontSize: 14,
-              }}
+              style={inputStyle}
             />
           </div>
 
@@ -152,16 +116,7 @@ export default function Signup() {
               name="role"
               value={form.role}
               onChange={onChange}
-              style={{
-                width: "100%",
-                padding: "12px 15px",
-                borderRadius: 25,
-                border: "none",
-                outline: "none",
-                background: "rgba(255,255,255,0.2)",
-                color: "#fff",
-                fontSize: 14,
-              }}
+              style={inputStyle}
             >
               <option value="client">Client</option>
               <option value="lawyer">Lawyer</option>
@@ -171,70 +126,21 @@ export default function Signup() {
           </div>
 
           {/* Messages */}
-          {error && (
-            <div
-              style={{
-                background: "rgba(255,0,0,0.2)",
-                padding: 8,
-                borderRadius: 8,
-                fontSize: 13,
-                marginBottom: 15,
-              }}
-            >
-              {error}
-            </div>
-          )}
-          {message && (
-            <div
-              style={{
-                background: "rgba(0,255,0,0.2)",
-                padding: 8,
-                borderRadius: 8,
-                fontSize: 13,
-                marginBottom: 15,
-              }}
-            >
-              {message}
-            </div>
-          )}
+          {error && <Message text={error} type="error" />}
+          {message && <Message text={message} type="success" />}
 
           {/* Submit button */}
           <button
             type="submit"
             disabled={loading}
-            style={{
-              width: "100%",
-              padding: 12,
-              border: "none",
-              borderRadius: 25,
-              background: "#fff",
-              color: "#333",
-              fontWeight: "bold",
-              fontSize: 15,
-              cursor: "pointer",
-              transition: "all 0.3s ease",
-            }}
+            style={submitButtonStyle}
           >
             {loading ? "Creating…" : "Create account"}
           </button>
 
-          <p
-            style={{
-              fontSize: 13,
-              marginTop: 15,
-              textAlign: "center",
-              color: "#fff",
-            }}
-          >
+          <p style={{ fontSize: 13, marginTop: 15, textAlign: "center", color: "#fff" }}>
             Already have an account?{" "}
-            <a
-              href="/login"
-              style={{
-                color: "#fff",
-                fontWeight: "bold",
-                textDecoration: "underline",
-              }}
-            >
+            <a href="/login" style={{ color: "#fff", fontWeight: "bold", textDecoration: "underline" }}>
               Login
             </a>
           </p>
@@ -243,3 +149,42 @@ export default function Signup() {
     </div>
   );
 }
+
+// Shared styles
+const inputStyle = {
+  width: "100%",
+  padding: "12px 15px",
+  borderRadius: 25,
+  border: "none",
+  outline: "none",
+  background: "rgba(255,255,255,0.2)",
+  color: "#fff",
+  fontSize: 14,
+};
+
+const submitButtonStyle = {
+  width: "100%",
+  padding: 12,
+  border: "none",
+  borderRadius: 25,
+  background: "#fff",
+  color: "#333",
+  fontWeight: "bold",
+  fontSize: 15,
+  cursor: "pointer",
+  transition: "all 0.3s ease",
+};
+
+const Message = ({ text, type }) => (
+  <div
+    style={{
+      background: type === "error" ? "rgba(255,0,0,0.2)" : "rgba(0,255,0,0.2)",
+      padding: 8,
+      borderRadius: 8,
+      fontSize: 13,
+      marginBottom: 15,
+    }}
+  >
+    {text}
+  </div>
+);

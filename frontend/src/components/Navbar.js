@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-export default function Footer() {
-  const { token, logout } = useAuth();
+export default function Navbar() {
+  const { token, logout, role, userProfile } = useAuth();
 
   return (
     <footer
@@ -42,11 +42,18 @@ export default function Footer() {
 
       {/* Right side */}
       <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
-        {token && (
+        {token ? (
           <>
+            {role === 'admin' && <Link to="/admin" style={{ color: "#fff", textDecoration: "none" }}>Admin</Link>}
+            {role === 'office' && <Link to="/office" style={{ color: "#fff", textDecoration: "none" }}>Office</Link>}
+            {role === 'lawyer' && <Link to="/lawyer" style={{ color: "#fff", textDecoration: "none" }}>Lawyer</Link>}
+            {role === 'client' && <Link to="/client" style={{ color: "#fff", textDecoration: "none" }}>Client</Link>}
             <Link to="/dashboard" style={{ color: "#fff", textDecoration: "none" }}>
               Dashboard
             </Link>
+            <span style={{ color: "#fff", fontSize: "14px" }}>
+              {userProfile?.name || 'User'}
+            </span>
             <button
               onClick={logout}
               style={{
@@ -60,6 +67,15 @@ export default function Footer() {
             >
               Logout
             </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" style={{ color: "#fff", textDecoration: "none" }}>
+              Login
+            </Link>
+            <Link to="/signup" style={{ color: "#fff", textDecoration: "none" }}>
+              Sign Up
+            </Link>
           </>
         )}
       </div>

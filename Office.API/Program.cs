@@ -30,7 +30,7 @@ builder.Services.AddCors(options => {
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
   options.UseSqlServer(connectionString));
-
+builder.Services.AddScoped<DbContext, ApplicationDbContext>();
 // Register repositories & services
 builder.Services.AddScoped(typeof(Office.Data.Interfaces.IGenericRepository<>), typeof(Office.Infrastructure.Repositories.GenericRepository<>));
 builder.Services.AddScoped<Office.Data.Interfaces.IUserRepository, Office.Infrastructure.Repositories.UserRepository>();

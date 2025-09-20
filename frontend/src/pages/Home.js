@@ -1,93 +1,97 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
+import about from '../assets/about.png';
+import services from '../assets/services.png';
+import contact from '../assets/contact.png';
+import home from '../assets/home.png';
 
 export default function Home() {
+  const containerStyle = { width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column' };
+  const firstSectionStyle = { height: '60%', display: 'flex', flexDirection: 'row' };
+  const heroContainerStyle = { flex: '0 0 66.5%', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' };
+  const overlayStyle = { position: 'absolute', textTransform: 'uppercase', color: 'white', textAlign: 'center', padding: '24px', maxWidth: '400px', zIndex: 2, pointerEvents: 'auto' };
+  const rightBoxStyle = { flex: '0 0 33.5%', backgroundColor: '#1a1a1a', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '40px' };
+  const secondSectionStyle = { height: '40%', flex: 1, display: 'flex', flexDirection: 'row', boxSizing: 'border-box' };
+
+  const cardStyle = { flex: 1, position: 'relative', overflow: 'hidden', boxShadow: '0 4px 10px rgba(0,0,0,0.2)', cursor: 'pointer', display: 'flex' };
+
+  // IMPORTANT: overlay must not block pointer events if you want the image itself to receive hover.
+  const cardOverlayStyle = {
+    position: 'absolute',
+    inset: 0,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 2,
+    pointerEvents: 'none' 
+  };
+
+  const cardTitleStyle = { color: 'white', fontSize: '1rem',  textTransform: 'uppercase', textAlign: 'center', pointerEvents: 'none' };
+
   return (
-    <div className="w-full">
-      {/* First row: Left image with overlay, Right text box */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-4 h-auto">
-        {/* Left big image with overlay text */}
-        <div
-          className="relative bg-cover bg-center h-[400px] flex items-center justify-center"
-          style={{ backgroundImage: "url('https://makeupyourownmind.com.au/wp-content/uploads/2020/08/lawfirm1.jpg')" }}
-        >
-          <div className="bg-black/50 text-center p-6 rounded text-white max-w-md">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">
-              Legal services made simple
-            </h1>
-            <p className="mb-6">
-              Connect with verified lawyers and manage your legal requests end-to-end.
-            </p>
-            <Link
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition"
+    <div style={containerStyle}>
+      {/* First Section */}
+      <div style={firstSectionStyle}>
+        <div style={heroContainerStyle}>
+          <motion.img
+            src={home}
+            alt="Hero"
+            initial={{ scale: 1 }}
+            whileHover={{ scale: 1.03 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          <div style={overlayStyle}>
+           
+            <h2 style={{ marginBottom: 24 }}>Connect with verified lawyers and manage your legal requests end-to-end.</h2>
+            
+          </div>
+        </div>
+
+        <div style={rightBoxStyle}>
+          <span style={{ textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: 2, opacity: 0.7, marginBottom: 8 }}>Our Services</span>
+          <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', marginBottom: 16 }}>Trusted Legal Expertise</h2>
+         
+          <Link
               to="/signup"
+              style={{ backgroundColor: '#e3d0a7', color: '#1f1010;',  borderRadius: 8,    width:'30%', textDecoration: 'none', padding: '8px 24px' }}
             >
               Get started
             </Link>
-          </div>
+        
         </div>
+      </div>
 
-        {/* Right text box */}
-        <div className="bg-gray-900 text-white flex flex-col justify-center p-10">
-          <span className="uppercase text-sm tracking-widest opacity-70 mb-2">
-            Our Services
-          </span>
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            Trusted Legal Expertise
-          </h2>
-          <p className="opacity-80">
-            We provide a wide range of professional legal services tailored to your needs.
-          </p>
-        </div>
-      </section>
+      {/* Second Section: Cards */}
+      <div style={secondSectionStyle}>
+        {[
+          { link: '/about', title: 'About Us', image: about },
+          { link: '/consultation', title: 'Services', image: services },
+          { link: '/contact', title: 'Contact Us', image: contact },
+        ].map((card, index) => (
+          <div key={index} style={cardStyle}>
+            <Link to={card.link} style={{ width: '100%', height: '100%', display: 'block', position: 'relative' }}>
+              {/* motion.img receives the hover directly */}
+              <motion.img
+                src={card.image}
+                alt={card.title}
+                initial={{ scale: 1 }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.45, ease: 'easeInOut' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
 
-      {/* Second row: 3 image cards with hover zoom */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 p-4">
-        {/* Card 1 */}
-        <Link
-          to="/contracts"
-          className="group relative overflow-hidden rounded-lg shadow-lg"
-        >
-          <img
-            src="https://makeupyourownmind.com.au/wp-content/uploads/2020/08/lawfirm1.jpg"
-            alt="Contract drafting"
-            className="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <h3 className="text-white text-xl font-semibold">Contract drafting</h3>
+              {/* Overlay sits visually above image but does NOT capture pointer events */}
+              <div style={cardOverlayStyle}>
+                <h3 style={cardTitleStyle}>{card.title}</h3>
+              </div>
+            </Link>
           </div>
-        </Link>
-
-        {/* Card 2 */}
-        <Link
-          to="/consultation"
-          className="group relative overflow-hidden rounded-lg shadow-lg"
-        >
-          <img
-            src="https://makeupyourownmind.com.au/wp-content/uploads/2020/08/lawfirm1.jpg"
-            alt="Legal consultation"
-            className="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <h3 className="text-white text-xl font-semibold">Legal consultation</h3>
-          </div>
-        </Link>
-
-        {/* Card 3 */}
-        <Link
-          to="/disputes"
-          className="group relative overflow-hidden rounded-lg shadow-lg"
-        >
-          <img
-            src="https://makeupyourownmind.com.au/wp-content/uploads/2020/08/lawfirm1.jpg"
-            alt="Dispute resolution"
-            className="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <h3 className="text-white text-xl font-semibold">Dispute resolution</h3>
-          </div>
-        </Link>
-      </section>
+        ))}
+      </div>
     </div>
   );
 }
