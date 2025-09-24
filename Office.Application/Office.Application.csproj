@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Office.Data\Office.Data.csproj" />
     <ProjectReference Include="..\Office.Infrastructure\Office.Infrastructure.csproj" />
+    
   </ItemGroup>
 
 </Project>
