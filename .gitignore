@@ -69,3 +69,5 @@ Desktop.ini
 # ---- OneDrive office temp files ----
 ~$*
 ~*.tmp
+# Office.API/.gitignore
+.env

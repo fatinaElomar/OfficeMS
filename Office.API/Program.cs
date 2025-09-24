@@ -6,32 +6,45 @@ using Office.Infrastructure.Data;
 using Office.Application.Services;
 using Office.Application.Helpers;
 using Office.Infrastructure.Repositories;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Load .env file
+Env.Load();
+
+// Access environment variable
+var openRouterApiKey = Environment.GetEnvironmentVariable("OPENROUTER_API_KEY");
+
 builder.Services.AddControllers()
-  .AddJsonOptions(options => {
-    options.JsonSerializerOptions.AllowTrailingCommas = true;
-  });
+    .AddJsonOptions(options => {
+        options.JsonSerializerOptions.AllowTrailingCommas = true;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 // CORS (development)
 builder.Services.AddCors(options => {
-  options.AddPolicy("DevCors", policy => {
-    policy.WithOrigins(
-      "http://localhost:5173",
-      "http://127.0.0.1:5173"
-    )
-    .AllowAnyHeader()
-    .AllowAnyMethod()
-    .AllowCredentials();
-  });
+    options.AddPolicy("DevCors", policy => {
+        policy.WithOrigins(
+            "http://localhost:5173",
+            "http://127.0.0.1:5173"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+    });
 });
+
 // DbContext
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-  options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString)
+);
 builder.Services.AddScoped<DbContext, ApplicationDbContext>();
-// Register repositories & services
+
+// Repositories & Services
 builder.Services.AddScoped(typeof(Office.Data.Interfaces.IGenericRepository<>), typeof(Office.Infrastructure.Repositories.GenericRepository<>));
 builder.Services.AddScoped<Office.Data.Interfaces.IUserRepository, Office.Infrastructure.Repositories.UserRepository>();
 builder.Services.AddScoped<Office.Data.Interfaces.ILegalRequestRepository, Office.Infrastructure.Repositories.LegalRequestRepository>();
@@ -47,13 +60,14 @@ builder.Services.AddScoped<PaymentService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<ChatService>();
 builder.Services.AddSingleton(new EmailSender(
-  builder.Configuration.GetValue<string>("Email:From") ?? "no-reply@example.com",
-  builder.Configuration.GetValue<string>("Email:Host") ?? "smtp.gmail.com",
-  builder.Configuration.GetValue<int>("Email:Port") == 0 ? 587 : builder.Configuration.GetValue<int>("Email:Port"),
-  builder.Configuration.GetValue<string>("Email:Username") ?? string.Empty,
-  builder.Configuration.GetValue<string>("Email:Password") ?? string.Empty,
-  builder.Configuration.GetValue<bool?>("Email:EnableSsl") ?? true
+    builder.Configuration.GetValue<string>("Email:From") ?? "no-reply@example.com",
+    builder.Configuration.GetValue<string>("Email:Host") ?? "smtp.gmail.com",
+    builder.Configuration.GetValue<int>("Email:Port") == 0 ? 587 : builder.Configuration.GetValue<int>("Email:Port"),
+    builder.Configuration.GetValue<string>("Email:Username") ?? string.Empty,
+    builder.Configuration.GetValue<string>("Email:Password") ?? string.Empty,
+    builder.Configuration.GetValue<bool?>("Email:EnableSsl") ?? true
 ));
+
 Environment.SetEnvironmentVariable("VERIFICATION_BASE_URL", builder.Configuration.GetValue<string>("Verification:BaseUrl") ?? "http://localhost:5173/verify-email");
 
 var app = builder.Build();
